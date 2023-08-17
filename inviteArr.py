@@ -1,4 +1,3 @@
-from plexapi.myplex import MyPlexAccount
 from plexapi.server import PlexServer
 from plexapi.settings import Settings
 import json
@@ -8,13 +7,6 @@ import requests
 import sys
 
 logging.basicConfig(level=logging.INFO)
-
-USERNAME = ""
-PASSWORD = ""
-SERVER = ""
-TOKEN = ""
-PLEX_SERVER = ""
-DRY_RUN = True
 
 
 class plexMigrationTools:
@@ -29,12 +21,12 @@ class plexMigrationTools:
         self.plex = self.plexLogin()
 
     def plexLogin(self):
-        logging.info("Logging into Plex Account")
-        try:
-            account = MyPlexAccount(self.USERNAME, self.PASSWORD)
-        except Exception as error:
-            logging.error("Error Logging into Plex Account %s", error)
-            sys.exit(1)
+        # logging.info("Logging into Plex Account")
+        # try:
+        #     account = MyPlexAccount(self.USERNAME, self.PASSWORD)
+        # except Exception as error:
+        #     logging.error("Error Logging into Plex Account %s", error)
+        #     sys.exit(1)
 
         logging.info("Connecting to Plex Server...")
         session = requests.Session()
@@ -68,28 +60,34 @@ class plexMigrationTools:
 
     def inviteUser(self, UserToInvite):
         sections = self.plex.library.sections()
+        # get all sections by default
+        sec_list = []
+        for sec in sections:
+            sec_list.append(sec.title)
         try:
-            invite = MyPlexAccount.inviteFriend(UserToInvite, self.plex, sections)
+            invite = self.plex.myPlexAccount().inviteFriend(
+                UserToInvite, self.plex, sections=sec_list
+            )
         except Exception as error:
             logging.error("General error inviting user: %s", error)
 
 
-if __name__ == "__main__":
-    migration = plexMigrationTools(
-        USERNAME,
-        PASSWORD,
-        SERVER,
-        TOKEN,
-        PLEX_SERVER,
-    )
-    migration.backupPlex()
+# if __name__ == "__main__":
+#     migration = plexMigrationTools(
+#         USERNAME,
+#         PASSWORD,
+#         SERVER,
+#         TOKEN,
+#         PLEX_SERVER,
+#     )
+#     migration.backupPlex()
 
-    # TODO - Create function for actual migration process
-    users = migration.getUsers()
-    for user in users:
-        if migration.DRY_RUN:
-            logging.info("--Dry run mode --")
-            logging.info(f"Inviting {user['email']}")
-        else:
-            logging.info(f"Inviting {user['email']}")
-            migration.inviteUser(user["email"])
+# # TODO - Create function for actual migration process
+# users = migration.getUsers()
+# for user in users:
+#     if migration.DRY_RUN:
+#         logging.info("--Dry run mode --")
+#         logging.info(f"Inviting {user['email']}")
+#     else:
+#         logging.info(f"Inviting {user['email']}")
+#         migration.inviteUser(user["email"])
