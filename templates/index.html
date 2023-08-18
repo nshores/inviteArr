@@ -5,20 +5,78 @@
     <title>inviteArr</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .card {
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="mt-5 mb-3">Welcome to inviteArr</h1>
-        <ul class="list-group">
-            <li class="list-group-item"><a href="/getUsers">View Users</a></li>
-            <li class="list-group-item"><a href="/backup">Backup Users</a></li>
-            <li class="list-group-item"><a href="/invitePage">Invite a User</a></li>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">inviteArr</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <span class="navbar-text">
+                    Current Server: {{ current_server }}
+                </span>
+            </li>
         </ul>
+    </nav>
+
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users fa-3x mb-3"></i>
+                        <h5 class="card-title">View Users</h5>
+                        <a href="/getUsers" class="btn btn-primary">Go</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-download fa-3x mb-3"></i>
+                        <h5 class="card-title">Backup Users</h5>
+                        <a href="/backup" class="btn btn-primary">Backup</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user-plus fa-3x mb-3"></i>
+                        <h5 class="card-title">Invite User</h5>
+                        <a href="/invitePage" class="btn btn-primary">Invite</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white text-center py-3 mt-5">
+        &copy; 2023 inviteArr. All Rights Reserved.
+    </footer>
 </body>
 
 </html>

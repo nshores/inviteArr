@@ -6,7 +6,7 @@ import os
 import requests
 import sys
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 
 class plexMigrationTools:
@@ -20,7 +20,14 @@ class plexMigrationTools:
 
         self.plex = self.plexLogin()
 
+        if self.DRY_RUN == True:
+            logging.debug("I'm in the class and Dry Run is enabled")
+
+        if self.DRY_RUN == False:
+            logging.debug("I'm in the class and Dry Run is disabled")
+
     def plexLogin(self):
+        # TODO - Consider support for just a plex account
         # logging.info("Logging into Plex Account")
         # try:
         #     account = MyPlexAccount(self.USERNAME, self.PASSWORD)
@@ -31,6 +38,11 @@ class plexMigrationTools:
         logging.info("Connecting to Plex Server...")
         session = requests.Session()
         session.verify = False
+        if session.verify is False:
+            # Disable the warning that the request is insecure, we know that...
+            import urllib3
+
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         try:
             plex = PlexServer(self.PLEX_SERVER, self.TOKEN, session)
         except Exception as error:
@@ -58,36 +70,28 @@ class plexMigrationTools:
             users = self.getUsers()
             json.dump(users, outfile, indent=4)
 
+    def importJson():
+        ###TODO - Create method to import json file with user info
+        print("Todo")
+
+    def runMigration():
+        ### TODO - Create method that will run a migration
+        print("Todo")
+
     def inviteUser(self, UserToInvite):
         sections = self.plex.library.sections()
         # get all sections by default
         sec_list = []
         for sec in sections:
             sec_list.append(sec.title)
-        try:
-            invite = self.plex.myPlexAccount().inviteFriend(
-                UserToInvite, self.plex, sections=sec_list
-            )
-        except Exception as error:
-            logging.error("General error inviting user: %s", error)
+        if self.DRY_RUN:
+            logging.info(f"[DRY RUN] Would have invited user: {UserToInvite}")
+        else:
+            try:
+                invite = self.plex.myPlexAccount().inviteFriend(
+                    UserToInvite, self.plex, sections=sec_list
+                )
+            except Exception as error:
+                logging.error("General error inviting user: %s", error)
 
-
-# if __name__ == "__main__":
-#     migration = plexMigrationTools(
-#         USERNAME,
-#         PASSWORD,
-#         SERVER,
-#         TOKEN,
-#         PLEX_SERVER,
-#     )
-#     migration.backupPlex()
-
-# # TODO - Create function for actual migration process
-# users = migration.getUsers()
-# for user in users:
-#     if migration.DRY_RUN:
-#         logging.info("--Dry run mode --")
-#         logging.info(f"Inviting {user['email']}")
-#     else:
-#         logging.info(f"Inviting {user['email']}")
-#         migration.inviteUser(user["email"])
+    logging.debug("I'm in the class")

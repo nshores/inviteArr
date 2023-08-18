@@ -2,16 +2,15 @@ from flask import Flask, render_template, request, jsonify
 from inviteArr import plexMigrationTools
 from plexapi import config
 import os
-
+import logging
 
 if os.getenv("PLEXAPI_CONFIG_PATH"):
     pass
 else:
     PLEXAPI_CONFIG_PATH = os.getcwd() + "/config.ini"
 
-DRY_RUN = True
-
 running_config = config.PlexConfig(PLEXAPI_CONFIG_PATH)
+dry_run_value = running_config.data["migration_options"]["dry_run"].lower() == "true"
 
 
 app = Flask(__name__)
@@ -22,12 +21,21 @@ migration = plexMigrationTools(
     running_config.data["auth"]["server_baseurl"],
     running_config.data["auth"]["server_token"],
     running_config.data["auth"]["server_baseurl"],
+    dry_run_value,
 )
+
+print(migration.DRY_RUN)
+if migration.DRY_RUN == True:
+    logging.info("I'm in the main app and Dry Run is enabled")
+
+if migration.DRY_RUN == False:
+    logging.info("I'm in the main app and Dry Run is disabled")
 
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    current_server = migration.PLEX_SERVER
+    return render_template("index.html", current_server=current_server)
 
 
 @app.route("/getUsers", methods=["GET"])

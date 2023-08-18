@@ -4,10 +4,9 @@ A simple web-based tool designed to automate the backup and migration of user in
 
 ## Features
 
-- **Login to Plex**: Uses the PlexAPI to log into your Plex account.
 - **Backup Users**: Save a list of all your Plex users to a JSON file.
 - **Invite Users**: Easily invite users to your Plex server, with support for dry-run mode to see the actions without actually inviting.
-- **Mass Migrations between plex servers**
+- **Mass Migrations**: Easily migrate between plex servers by importing a saved json configuration file between your servers.
 
 ## Setup & Installation
 
@@ -28,14 +27,22 @@ A simple web-based tool designed to automate the backup and migration of user in
 
 3. **Configuration**:
 
-   Modify the config parameters in `plexInviter.py` with your Plex server details:
+   Settings are stored in an INI file within the user’s home directory and can be overridden after importing plexapi by simply setting the value. See the documentation section ‘Configuration’ for more details on available options.
 
-   ```python
-   USERNAME = "YOUR_PLEX_USERNAME"
-   PASSWORD = "YOUR_PLEX_PASSWORD"
-   SERVER = "YOUR_PLEX_SERVER"
-   TOKEN = "YOUR_PLEX_API_TOKEN"
-   PLEX_SERVER = "YOUR_PLEX_SERVER_URL"
+   ```
+   [migration_options]
+   dry_run = True
+
+   [plexapi]
+   container_size = 50
+   timeout = 30
+
+   [auth]
+   myplex_username = xxx
+   myplex_password = xxx
+   server_baseurl = https://192.168.1.100:32400
+   server_token = xxx
+
    ```
 
 4. **Run the App**:
@@ -48,7 +55,6 @@ A simple web-based tool designed to automate the backup and migration of user in
 
 ## Technologies Used
 
-- **Python**: For the backend logic and server.
 - **Flask**: To serve the web interface.
 - **PlexAPI**: To communicate with Plex servers and manage users.
 
