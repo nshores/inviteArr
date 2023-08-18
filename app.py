@@ -1,22 +1,27 @@
 from flask import Flask, render_template, request, jsonify
 from inviteArr import plexMigrationTools
+from plexapi import config
+import os
 
-USERNAME = ""
-PASSWORD = ""
-SERVER = ""
-TOKEN = ""
-PLEX_SERVER = ""
+
+if os.getenv("PLEXAPI_CONFIG_PATH"):
+    pass
+else:
+    PLEXAPI_CONFIG_PATH = os.getcwd() + "/config.ini"
+
 DRY_RUN = True
+
+running_config = config.PlexConfig(PLEXAPI_CONFIG_PATH)
 
 
 app = Flask(__name__)
 
 migration = plexMigrationTools(
-    USERNAME,
-    PASSWORD,
-    SERVER,
-    TOKEN,
-    PLEX_SERVER,
+    running_config.data["auth"]["myplex_username"],
+    running_config.data["auth"]["myplex_password"],
+    running_config.data["auth"]["server_baseurl"],
+    running_config.data["auth"]["server_token"],
+    running_config.data["auth"]["server_baseurl"],
 )
 
 
