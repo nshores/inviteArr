@@ -7,7 +7,7 @@ A simple web-based tool designed to automate the backup and migration of user in
 - **Login to Plex**: Uses the PlexAPI to log into your Plex account.
 - **Backup Users**: Save a list of all your Plex users to a JSON file.
 - **Invite Users**: Easily invite users to your Plex server, with support for dry-run mode to see the actions without actually inviting.
-- ** Mass Migrations between plex servers
+- **Mass Migrations between plex servers**
 
 ## Setup & Installation
 
@@ -46,10 +46,6 @@ A simple web-based tool designed to automate the backup and migration of user in
 
    Now, visit `http://127.0.0.1:5000/` in your web browser.
 
-## Screenshots
-
-(Include a few screenshots of the application to provide a visual. You can host these images on GitHub and link them here.)
-
 ## Technologies Used
 
 - **Python**: For the backend logic and server.
@@ -63,7 +59,3 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
----
-
-Make sure to modify the placeholders like `https://github.com/your-github-username/plexInviter.git` with your actual GitHub repository link. Also, it's always good to include screenshots as they provide a quick look into what the application does.
